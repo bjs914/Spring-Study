@@ -6,9 +6,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.util.UrlPathHelper;
 
 @Configuration	//Bean설정을 알려주는 어노테이션, 클래스가 빈 메소드를 포함
 @EnableWebMvc	//구성정보를 수입
@@ -33,6 +35,13 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter{
 	resolver.setPrefix("/WEB-INF/jsp/");
 	resolver.setSuffix(".jsp");
 	return resolver;
+	}
+	
+	@Override // 행열변수 지원하게 설정
+	public void configurePathMatch(PathMatchConfigurer configurer) {
+		UrlPathHelper urlPathHelper = new UrlPathHelper();
+		urlPathHelper.setRemoveSemicolonContent(false);	//세미콜론도 넘겨주라는 의미임
+		configurer.setUrlPathHelper(urlPathHelper);
 	}
 
 }
