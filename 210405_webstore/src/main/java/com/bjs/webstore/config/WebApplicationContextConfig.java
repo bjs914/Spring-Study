@@ -37,6 +37,7 @@ import org.springframework.web.util.UrlPathHelper;
 import com.bjs.webstore.domain.Product;
 import com.bjs.webstore.interceptor.ProcessingTimeLogInterceptor;
 import com.bjs.webstore.interceptor.PromoCodeInterceptor;
+import com.bjs.webstore.validator.ProductImageValidator;
 import com.bjs.webstore.validator.ProductValidator;
 import com.bjs.webstore.validator.UnitsInStockValidator;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -180,9 +181,18 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter{
 	public ProductValidator productValidator() {
 		Set<Validator> springValidators = new HashSet<Validator>();
 		springValidators.add(new UnitsInStockValidator());
+		springValidators.add(productImageValidator());	//이미지크기,용량관련
+		springValidators.add(new ProductImageValidator());
 		ProductValidator productValidator = new ProductValidator();
 		productValidator.setSpringValidators(springValidators);
 		return productValidator;
+	}
+	
+	@Bean	//이미지 용량에 따른 제한
+	public ProductImageValidator productImageValidator() {
+		ProductImageValidator productImageValidator = new ProductImageValidator();
+		productImageValidator.setAllowedSize(1024 * 1024);
+		return productImageValidator;
 	}
 //	210414 추가 종료
 }
