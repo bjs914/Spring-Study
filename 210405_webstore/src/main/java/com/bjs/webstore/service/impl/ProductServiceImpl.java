@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.bjs.webstore.domain.Product;
@@ -19,7 +20,7 @@ public class ProductServiceImpl implements ProductService{
 	public void updateAllStock() {
 		List<Product> allProducts = productRepository.getAllProducts();
 		for (Product product : allProducts) {
-			if (product.getUnitsInStock() < 2000) {
+			if (product.getUnitsInStock() < 500) {
 				productRepository.updateStock(product.getProductId(), product.getUnitsInStock() + 1000);
 			}
 		}
@@ -47,10 +48,20 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public List<Product> getProdsByMultiFilter(
-			String productCategory, Map<String, String> price,
-			String brand) {
-			return productRepository.getProdsByMultiFilter(
-			productCategory, price, brand);
-			}
+			String productCategory,
+			Map<String, String> price, String brand) {
+		return productRepository.getProdsByMultiFilter(productCategory, price, brand);
+	}
+
+	@Override
+	public void addProduct(Product product) throws DataAccessException {
+		productRepository.addProduct(product);
+	}
+
+	@Override
+	public List<Product> getAllProducts(String arg) {
+		return productRepository.getAllProducts(arg);
+	}
+	
 
 }

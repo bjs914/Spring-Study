@@ -7,11 +7,11 @@ public class Customer implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private String customerId;
-	private String name;
-	private String address;
-	private int noOfOrdersMade;
+	public static final long serialVersionUID = 5580816632339253958L;
+	public String customerId;
+	public String name;
+	public String address;
+	public int noOfOrdersMade;
 	
 	
 	public String getCustomerId() {

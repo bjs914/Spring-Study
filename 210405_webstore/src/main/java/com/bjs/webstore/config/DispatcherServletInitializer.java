@@ -1,5 +1,8 @@
 package com.bjs.webstore.config;
 
+import javax.servlet.Filter;
+
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class DispatcherServletInitializer extends
@@ -22,4 +25,13 @@ public class DispatcherServletInitializer extends
 	protected String[] getServletMappings() {	//배정기 서블릿의 서블릿 매핑을 지정(web.xml에서)
 	return new String[] { "/" };
 	}
+	
+	@Override	//한글인코딩방법
+    protected Filter[] getServletFilters() {
+        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+        characterEncodingFilter.setEncoding("UTF-8");
+        characterEncodingFilter.setForceEncoding(true);
+        
+        return new Filter[] { characterEncodingFilter };
+    }
 }

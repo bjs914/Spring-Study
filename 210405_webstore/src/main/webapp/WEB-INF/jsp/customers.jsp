@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
+	pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
 <link rel="stylesheet"
 	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 <title>Insert title here</title>
@@ -15,12 +15,19 @@
 		<div class="jumbotron">
 			<div class="container">
 				<h1>고객 목록</h1>
-				<p>All the available products in our store</p>
+				<p>모든 고객 목록</p>
 			</div>
 		</div>
 	</section>
 	<section class="container">
-		<div class="row">
+		<a href="/webstore">홈으로</a>
+		<div class="pull-right" style="padding-right: 50px">
+			<a href="<c:url value="/logout" />">로그아웃</a>
+		</div>
+		<hr>
+	</section>
+	<section class="container">
+		<div class="row" align="center">
 			<c:forEach items="${customers}" var="customer">
 				<div class="col-sm-6 col-md-3">
 					<div class="thumbnail">

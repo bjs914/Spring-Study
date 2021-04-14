@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 @Configuration
-@ComponentScan("com.packt.webstore")
+@ComponentScan("com.bjs.webstore")
 public class RootApplicationContextConfig {
 
 	@Bean

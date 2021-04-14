@@ -1,16 +1,34 @@
 package com.bjs.webstore.controller;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.MatrixVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.bjs.webstore.domain.Product;
+import com.bjs.webstore.exception.NoProductsFoundUnderCategoryException;
+import com.bjs.webstore.exception.ProductNotFoundException;
 import com.bjs.webstore.service.ProductService;
 
 @Controller
@@ -48,11 +66,16 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/products/{category}") // 이렇게 하면 /market/products/laptop,tablet,등의 대소문자 구별없이 검색가능
-	public String getProductsByCategory(Model model, @PathVariable("category") String productCategory) {
-		model.addAttribute("products", productService.getProductsByCategory(productCategory));
+	public String getProductsByCategory(Model model, @PathVariable("category") String category) {
+		List<Product> products =
+				productService.getProductsByCategory(category);
+		
+		if (products == null || products.isEmpty()) {
+			throw new NoProductsFoundUnderCategoryException();
+			} model.addAttribute("products", products);
 		return "products";
 	}
-
+	
 	@RequestMapping("/products/filter/{params}") // 6절 실습
 	public String getProductsByFilter(@MatrixVariable(pathVar = "params") Map<String, List<String>> filterParams,
 			Model model) {
@@ -64,5 +87,82 @@ public class ProductController {
 	public String getProductById(@RequestParam("id") String productId, Model model) {
 		model.addAttribute("product", productService.getProductById(productId));
 		return "product";
+	}
+	
+	@RequestMapping(value = "/products/add", method = RequestMethod.GET)
+	public String getAddNewProductForm(Model model) {
+		Product newProduct = new Product();
+		model.addAttribute("newProduct", newProduct);
+		return "addProduct";
+	}
+
+	@RequestMapping(value = "/products/add", method = RequestMethod.POST) 
+//			produces = MediaType.APPLICATION_JSON_VALUE+ "; charset=utf-8")
+	public String processAddNewProductForm(@ModelAttribute("newProduct") @Valid Product newProduct, BindingResult result,
+			Model model, HttpServletRequest request) {
+		if (result.hasErrors()) {
+			return "addProduct";
+		}
+		try {
+		String[] suppressedFields = result.getSuppressedFields();
+		if (suppressedFields.length > 0) {
+			throw new RuntimeException(
+					"허용되지 않은 항목을 엮어오려고함: " + StringUtils.arrayToCommaDelimitedString(suppressedFields));
+		} else {
+			/**
+			* 상품 영상 메모리 내용 정한 폴더에 파일로 보관
+			*/
+			MultipartFile productImage = newProduct.getProductImage();
+			String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+			if (productImage != null && !productImage.isEmpty()) {
+				try {
+					productImage.transferTo(
+							new File(rootDirectory + "resources\\images\\" + newProduct.getProductId() + ".png"));
+				} catch (Exception e) {
+					throw new RuntimeException("Product Image saving failed", e);
+				}
+			}
+			/**
+			 * 상품 설명서 메모리 내용 정한 폴더에 파일로 보관
+			 */
+			MultipartFile productManual = newProduct.getProductManual();
+			if (productManual != null && !productManual.isEmpty()) {
+				try {
+					productManual.transferTo(
+							new File(rootDirectory + "resources\\pdf\\" + newProduct.getProductId() + ".pdf"));
+				} catch (Exception e) {
+					throw new RuntimeException("상품 설명서 저장 실패", e);
+				}
+			}
+			productService.addProduct(newProduct);
+		}
+		return "redirect:/market/products";
+		} catch (DataAccessException e) {
+			String msg = e.getMessage();
+			int idx = msg.lastIndexOf("Duplicate");
+			model.addAttribute("errorMsg", msg.substring(idx));
+			return "addProduct";
+		}
+	}
+	
+	@ExceptionHandler(ProductNotFoundException.class)	//HandleError담당
+	public ModelAndView handleError(HttpServletRequest req, ProductNotFoundException exception) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("invalidProductId", exception.getProductId());
+		mav.addObject("exception", exception);
+		mav.addObject("url", req.getRequestURL() + "?" + req.getQueryString());
+		mav.setViewName("productNotFound");	//뷰.jsp파일이름을 의미함
+		return mav;
+	}
+	
+	@RequestMapping("/products/invalidPromoCode")
+	public String invalidPromoCode() {
+		return "invalidPromoCode";
+	}
+	
+	@InitBinder
+	public void initialiseBinder(WebDataBinder binder) {
+		binder.setAllowedFields("productId", "name", "unit*", "description", "manufacturer", "category", "condition",
+				"productImage", "productManual");
 	}
 }

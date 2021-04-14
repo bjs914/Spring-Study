@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -20,11 +21,10 @@ public class InMemoryCustomerRepository implements CustomerRepository{
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
 	
-	@Override
+//	@Override
 	public List<Customer> getAllCustomers() {
 		Map<String, Object> params = new HashMap<String, Object>();
-		List<Customer> result = jdbcTemplate.query("SELECT * FROM customers",
-				params, new CustomerMapper());
+		List<Customer> result = jdbcTemplate.query("SELECT * FROM customers", params, new CustomerMapper());
 		return result;
 	}
 	
@@ -37,5 +37,17 @@ public class InMemoryCustomerRepository implements CustomerRepository{
 			customer.setNoOfOrdersMade(rs.getInt("noOfOrdersMade"));
 			return customer;
 		}
+	}
+
+	@Override
+	public void addCustomer(Customer customer) throws DataAccessException{
+		String sql = "INSERT INTO CUSTOMERS (ID, " + "NAME, address, noOfOrdersMade) "
+				+ "VALUES (:id, :name, :address, :noOfOrdersMade)";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", customer.getCustomerId());
+		params.put("name", customer.getName());
+		params.put("address", customer.getAddress());
+		params.put("noOfOrdersMade", customer.getNoOfOrdersMade());
+		jdbcTemplate.update(sql, params);
 	}
 }
