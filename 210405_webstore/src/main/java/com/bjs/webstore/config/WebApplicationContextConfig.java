@@ -182,7 +182,7 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter{
 		Set<Validator> springValidators = new HashSet<Validator>();
 		springValidators.add(new UnitsInStockValidator());
 		springValidators.add(productImageValidator());	//이미지크기,용량관련
-		springValidators.add(new ProductImageValidator());
+//		springValidators.add(new ProductImageValidator());
 		ProductValidator productValidator = new ProductValidator();
 		productValidator.setSpringValidators(springValidators);
 		return productValidator;
