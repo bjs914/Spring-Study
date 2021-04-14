@@ -30,6 +30,7 @@ import com.bjs.webstore.domain.Product;
 import com.bjs.webstore.exception.NoProductsFoundUnderCategoryException;
 import com.bjs.webstore.exception.ProductNotFoundException;
 import com.bjs.webstore.service.ProductService;
+import com.bjs.webstore.validator.UnitsInStockValidator;
 
 @Controller
 @RequestMapping("market")	//이게 추가되면 url에서 /products : 접속불가, /market/products : 접속가능
@@ -39,6 +40,9 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private UnitsInStockValidator unitsInStockValidator;
 	
 	@RequestMapping("/products")
 	public String list(Model model) {
@@ -164,5 +168,6 @@ public class ProductController {
 	public void initialiseBinder(WebDataBinder binder) {
 		binder.setAllowedFields("productId", "name", "unit*", "description", "manufacturer", "category", "condition",
 				"productImage", "productManual");
+		binder.setValidator(unitsInStockValidator);
 	}
 }
