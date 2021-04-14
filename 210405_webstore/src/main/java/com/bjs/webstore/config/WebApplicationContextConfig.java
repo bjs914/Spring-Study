@@ -1,7 +1,9 @@
 package com.bjs.webstore.config;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -35,6 +37,8 @@ import org.springframework.web.util.UrlPathHelper;
 import com.bjs.webstore.domain.Product;
 import com.bjs.webstore.interceptor.ProcessingTimeLogInterceptor;
 import com.bjs.webstore.interceptor.PromoCodeInterceptor;
+import com.bjs.webstore.validator.ProductValidator;
+import com.bjs.webstore.validator.UnitsInStockValidator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -170,4 +174,15 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter{
 		resolver.setDefaultEncoding("utf-8");
 		return resolver;
 	}
+	
+//	210414 추가 시작
+	@Bean
+	public ProductValidator productValidator() {
+		Set<Validator> springValidators = new HashSet<Validator>();
+		springValidators.add(new UnitsInStockValidator());
+		ProductValidator productValidator = new ProductValidator();
+		productValidator.setSpringValidators(springValidators);
+		return productValidator;
+	}
+//	210414 추가 종료
 }

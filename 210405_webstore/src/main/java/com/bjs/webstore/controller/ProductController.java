@@ -30,6 +30,7 @@ import com.bjs.webstore.domain.Product;
 import com.bjs.webstore.exception.NoProductsFoundUnderCategoryException;
 import com.bjs.webstore.exception.ProductNotFoundException;
 import com.bjs.webstore.service.ProductService;
+import com.bjs.webstore.validator.ProductValidator;
 import com.bjs.webstore.validator.UnitsInStockValidator;
 
 @Controller
@@ -42,7 +43,7 @@ public class ProductController {
 	private ProductService productService;
 	
 	@Autowired
-	private UnitsInStockValidator unitsInStockValidator;
+	private ProductValidator productValidator;
 	
 	@RequestMapping("/products")
 	public String list(Model model) {
@@ -168,6 +169,6 @@ public class ProductController {
 	public void initialiseBinder(WebDataBinder binder) {
 		binder.setAllowedFields("productId", "name", "unit*", "description", "manufacturer", "category", "condition",
 				"productImage", "productManual");
-		binder.setValidator(unitsInStockValidator);
+		binder.setValidator(productValidator);
 	}
 }

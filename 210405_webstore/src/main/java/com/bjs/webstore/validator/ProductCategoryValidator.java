@@ -13,12 +13,14 @@ import org.springframework.stereotype.Component;
 public class ProductCategoryValidator implements ConstraintValidator<ProductCategory, String> {
 	List<String> categories = new ArrayList<String>();
 
+	@Override
 	public void initialize(ProductCategory constraintAnnotation) {
 		categories.add("Smartphone");
 		categories.add("Laptop");
 		categories.add("Tablet");
 		categories.add("Desktop");
 	}
+	@Override
 	public	boolean isValid(String newCategory, ConstraintValidatorContext context) {
 		if (categories.contains(newCategory)) {
 			return true;
