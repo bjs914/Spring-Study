@@ -10,7 +10,9 @@
 <script
 src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.1/angular.min.js">
 </script>
-<script src="/webstore/resources/js/controller.js"></script>
+<!-- <script src="/webstore/resources/js/controller.js"></script> 이렇게 해도됨-->
+<script src="<%=request.getContextPath() %>/resources/js/controller.js"></script>
+<!-- /webstore 자리에 :  request.getContextPath()를 넣어도 됨  스크립트릿 써서-->
 <title>쇼핑카트</title>
 </head>
 <body>
@@ -40,6 +42,8 @@ src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.1/angular.min.js">
 						<th>Action</th>
 					</tr>
 					<tr ng-repeat="item in cart.cartItems">
+					<!-- ng-repeat : AngularJS활용법중 하나, for문과 같이 배열의 원소들을 반복적으로 출력할때 사용 -->
+					<!-- item in cart.cartItems : controller.js(AngularJS)에서 정의 되어있음 -->
 						<td>{{item.product.productId}}-{{item.product.name}}</td>
 						<td>{{item.product.unitPrice}}</td>
 						<td>{{item.quantity}}</td>

@@ -15,6 +15,7 @@ public class CartController {
 	@RequestMapping
 	public String get(HttpServletRequest request) {
 		return "redirect:/cart/" + request.getSession(true).getId();
+		//세션이 없으면 만들어서(true) getId에 붙여서 cart/다음에 붙여서 리다이렉트함
 	}
 
 	@RequestMapping(value = "/{cartId}", method = RequestMethod.GET)

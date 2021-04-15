@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.bjs.webstore.domain.Customer;
+import com.bjs.webstore.domain.Customers;
 import com.bjs.webstore.domain.repository.CustomerRepository;
 
 @Repository
@@ -22,15 +22,15 @@ public class InMemoryCustomerRepository implements CustomerRepository{
 	private NamedParameterJdbcTemplate jdbcTemplate;
 	
 //	@Override
-	public List<Customer> getAllCustomers() {
+	public List<Customers> getAllCustomers() {
 		Map<String, Object> params = new HashMap<String, Object>();
-		List<Customer> result = jdbcTemplate.query("SELECT * FROM customers", params, new CustomerMapper());
+		List<Customers> result = jdbcTemplate.query("SELECT * FROM customers", params, new CustomerMapper());
 		return result;
 	}
 	
-	private static final class CustomerMapper implements RowMapper<Customer> {
-		public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
-			Customer customer = new Customer();
+	private static final class CustomerMapper implements RowMapper<Customers> {
+		public Customers mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Customers customer = new Customers();
 			customer.setCustomerId(rs.getString("ID"));
 			customer.setName(rs.getString("NAME"));
 			customer.setAddress(rs.getString("address"));
@@ -40,7 +40,7 @@ public class InMemoryCustomerRepository implements CustomerRepository{
 	}
 
 	@Override
-	public void addCustomer(Customer customer) throws DataAccessException{
+	public void addCustomer(Customers customer) throws DataAccessException{
 		String sql = "INSERT INTO CUSTOMERS (ID, " + "NAME, address, noOfOrdersMade) "
 				+ "VALUES (:id, :name, :address, :noOfOrdersMade)";
 		Map<String, Object> params = new HashMap<String, Object>();

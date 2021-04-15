@@ -15,7 +15,7 @@ import com.bjs.webstore.domain.Cart;
 import com.bjs.webstore.dto.CartDto;
 import com.bjs.webstore.service.CartService;
 
-@RestController	//this and
+@RestController	//this and	,,RestController는 뷰를 주는 것이 아니라 자료(데이터)를 주고받는 역할을 하는 컨트롤러임
 @RequestMapping(value="rest/cart")
 public class CartRestController {
 	@Autowired

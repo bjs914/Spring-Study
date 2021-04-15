@@ -10,7 +10,8 @@
 <link rel="stylesheet"
 	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
-<script src="/webstore/resources/js/controller.js"></script>
+<!-- <script src="/webstore/resources/js/controller.js"></script> -->
+<script src="<%=request.getContextPath() %>/resources/js/controller.js"></script>
 <title>ID로 찾은 상품</title>
 </head>
 <body>

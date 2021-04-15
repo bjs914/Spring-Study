@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.bjs.webstore.domain.Customer;
+import com.bjs.webstore.domain.Customers;
 import com.bjs.webstore.service.CustomerService;
 
 @Controller
@@ -24,13 +24,13 @@ public class CustomerController {
 	}
 
 	@RequestMapping(value = "/customers/add", method = RequestMethod.GET)
-	public String getAddNewCustomerForm(@ModelAttribute("newCustomer") Customer newCustomer) {
+	public String getAddNewCustomerForm(@ModelAttribute("newCustomer") Customers newCustomer) {
 		return "addCustomer";
 	}
 
 	@RequestMapping(value = "/customers/add", method = RequestMethod.POST)
 	public String processAddNewCustomerForm(Model model, 
-			@ModelAttribute("newCustomer") Customer newCustomer) {
+			@ModelAttribute("newCustomer") Customers newCustomer) {
 		try {
 			customerService.addCustomer(newCustomer);
 			return "redirect:/market/customers";

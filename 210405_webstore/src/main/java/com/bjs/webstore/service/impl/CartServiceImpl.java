@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.bjs.webstore.domain.Cart;
 import com.bjs.webstore.domain.repository.CartRepository;
 import com.bjs.webstore.dto.CartDto;
+import com.bjs.webstore.exception.InvalidCartException;
 import com.bjs.webstore.service.CartService;
 
 @Service
@@ -41,6 +42,19 @@ public class CartServiceImpl implements CartService{
 	@Override
 	public void removeItem(String cartId, String productId) {
 		cartRepository.removeItem(cartId, productId);
+	}
+
+	@Override
+	public Cart validate(String cartId) {
+		Cart cart = cartRepository.read(cartId);
+		if(cart==null || cart.getCartItems().size()==0) {
+		throw new InvalidCartException(cartId);
+		} return cart;
+	}
+
+	@Override
+	public void clearCart(String cartId) {
+		cartRepository.clearCart(cartId);
 	}
 
 }
