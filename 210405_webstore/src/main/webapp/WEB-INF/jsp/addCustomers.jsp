@@ -23,13 +23,13 @@ href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 	<section class="container">
 		<a href="/webstore">홈으로</a>
 		<div class="pull-right" style="padding-right: 50px">
-		<a href="<c:url value="/logout" />">로그아웃</a>
+			<a href="<c:url value="/logout" />">로그아웃</a>
 		</div>
 		<hr>
 	</section>
 	<section class="container">
 		<form:form method="POST" modelAttribute="newCustomer"
-			class="form-horizontal" enctype="multipart/form-data">
+			class="form-horizontal">
 			<fieldset>
 				<legend>새 고객 정보 입력</legend>
 				<span>${errorMsg}</span>

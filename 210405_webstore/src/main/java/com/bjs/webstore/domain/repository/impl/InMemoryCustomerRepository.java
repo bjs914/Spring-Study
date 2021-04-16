@@ -8,8 +8,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.bjs.webstore.domain.Address;
@@ -22,6 +27,9 @@ public class InMemoryCustomerRepository implements CustomerRepository{
 
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
+	@Autowired
+	InMemoryOrderRepository inMemoryOrderRepository;
+	
 	
 //	@Override
 	public List<Customers> getAllCustomers() {
@@ -69,7 +77,7 @@ public class InMemoryCustomerRepository implements CustomerRepository{
 	private static final class CustomerMapper2 implements RowMapper<Customer> {
 		public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Customer customer = new Customer();
-			customer.setCustomerId(rs.getLong("ID"));
+			customer.setCustomerIdLong(rs.getLong("ID"));
 			customer.setName(rs.getString("NAME"));
 			customer.setPhoneNumber(rs.getString("PHONE_NUMBER"));
 			Address billAddress = new Address();
@@ -81,6 +89,50 @@ public class InMemoryCustomerRepository implements CustomerRepository{
 			billAddress.setUnitNo(rs.getString("UNITNO"));
 			customer.setBillingAddress(billAddress);
 			return customer;
+		}
+	}
+
+	@Override
+	public long saveCustomer(Customer customer) {
+		return inMemoryOrderRepository.saveCustomer(customer);
+	}
+
+	@Override
+	public Customer getCustomer(String customerId) {
+		String qry = "";
+		qry += "Select C.ID, C.name, C.phone_number,";
+		qry += " A.ZIPCODE, A.WIDECIDO, A.CIGOONGU,A.STREETNAME,";
+		qry += " A.BUILDINGNO, A.UNITNO ";
+		qry += "From customer C";
+		qry += " Join address A on C.billing_address_id = A.ID";
+		qry += " WHERE C.ID = :id";
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", customerId);
+		Customer result = null;
+		try {
+			result=jdbcTemplate.queryForObject(qry, params, new CustomerMapper2());
+		}catch(EmptyResultDataAccessException e) {
+			if(result==null) {
+				result= new Customer();
+				result.setWorngId(true);
+				result.setCustomerIdLong((long)Integer.parseInt(customerId));
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public Boolean isCustomerExist(String customerId) {
+		String sql = "SELECT count(*) FROM customer";
+		sql += " WHERE ID = :id";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", customerId);
+		int result = jdbcTemplate.queryForObject(sql, params, Integer.class);
+		if (result == 1) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

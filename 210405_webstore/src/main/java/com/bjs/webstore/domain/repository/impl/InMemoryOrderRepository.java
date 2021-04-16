@@ -20,6 +20,7 @@ import com.bjs.webstore.service.CartService;
 
 @Repository
 public class InMemoryOrderRepository implements OrderRepository{
+	
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTempleate;
 	@Autowired
@@ -29,7 +30,7 @@ public class InMemoryOrderRepository implements OrderRepository{
 	public long saveOrder(Order order) {
 		Long customerId = saveCustomer(order.getCustomer());
 		Long shippingDetailId = saveShippingDetail(order.getShippingDetail());
-		order.getCustomer().setCustomerId(customerId);
+		order.getCustomer().setCustomerIdLong(customerId);
 		order.getShippingDetail().setId(shippingDetailId);
 		long createdOrderId = createOrder(order);
 		CartService.clearCart(order.getCart().getId());
@@ -51,7 +52,8 @@ public class InMemoryOrderRepository implements OrderRepository{
 		return keyHolder.getKey().longValue();
 	}
 
-	private	long saveCustomer(Customer customer) {
+	@Override
+	public	long saveCustomer(Customer customer) {
 		long addressId = saveAddress(customer.getBillingAddress());
 		String SQL = "INSERT INTO CUSTOMER ";
 		SQL += "(NAME,PHONE_NUMBER,BILLING_ADDRESS_ID) ";
@@ -91,7 +93,7 @@ public class InMemoryOrderRepository implements OrderRepository{
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", order.getOrderId());
 		params.put("cartId", order.getCart().getId());
-		params.put("customerId", order.getCustomer().getCustomerId());
+		params.put("customerId", order.getCustomer().getCustomerIdLong());
 		params.put("shippingDetailId", order.getShippingDetail().getId());
 		SqlParameterSource paramSource = new MapSqlParameterSource(params);
 		KeyHolder keyHolder = new GeneratedKeyHolder();

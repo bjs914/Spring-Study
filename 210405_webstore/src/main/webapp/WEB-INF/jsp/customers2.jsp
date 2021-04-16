@@ -40,7 +40,7 @@ href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 					<div class="thumbnail">
 						<div class="caption">
 							<h3>${customer.name}</h3>
-							<p>${customer.customerId}</p>
+							<p>${customer.customerIdLong}</p>
 							<p>${customer.billingAddress.zipCode}</p>
 							<p>${customer.billingAddress.wideCiDo}</p>
 							<p>${customer.billingAddress.ciGoonGu}</p>

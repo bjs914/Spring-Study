@@ -3,27 +3,52 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://www.springframework.org/schema/webflow
 http://www.springframework.org/schema/webflow/spring-webflow.xsd">
-<var name="order" class="com.bjs.webstore.domain.Order" />
-<action-state id="addCartToOrder">
-<evaluate
-expression="cartServiceImpl.validate(requestParameters.cartId)"
-result="order.cart" />
-<transition to="invalidCartWarning"
-on-exception="com.bjs.webstore.exception.InvalidCartException"
-/>
 
-<transition to="collectCustomerInfo" />
+<var name="order" class="com.bjs.webstore.domain.Order" />
+
+<action-state id="addCartToOrder">
+	<evaluate expression="cartServiceImpl.validate(requestParameters.cartId)"
+	result="order.cart" />
+	<transition to="invalidCartWarning"
+	on-exception="com.bjs.webstore.exception.InvalidCartException"/>
+	<transition to="collectCustomerId" />
 </action-state>
+
+<decision-state id ="checkCustomerExist">
+	<if test = "customerServiceImpl.isCustomerExist(order.customer.customerIdLong)"
+	then = "collectShippingDetail"
+	else = "collectCustomerInfo"/>
+</decision-state>
+
+<view-state id="collectCustomerId" view="collectCustomerId.jsp" model="order">
+	<transition on="customerIdConfirmed" to="processCustomerId" />
+	<transition on="newCustomer" to="collectCustomerInfo" />
+</view-state>
+
+<action-state id="processCustomerId">
+	<evaluate
+	expression="customerServiceImpl.getCustomer(order.customer.customerIdLong)"
+	result="order.customer" />
+	<transition to="collectCustomerInfo" />
+</action-state>
+
 <view-state id="collectCustomerInfo" view="collectCustomerInfo.jsp"
 model="order">
-
-<transition on="customerInfoCollected" to="collectShippingDetail" />
+<transition on="customerInfoCollected" to="saveCustomerInfo" />
 </view-state>
+
 <view-state id="collectShippingDetail" model="order">
 <transition on="shippingDetailCollected" to="orderConfirmation" />
 <transition on="backToCollectCustomerInfo" to="collectCustomerInfo"
 />
 </view-state>
+
+<action-state id="saveCustomerInfo">
+	<evaluate
+	expression="customerServiceImpl.saveCustomer(order.customer)" />
+	<transition to="collectShippingDetail" />
+</action-state>
+
 <view-state id="orderConfirmation">
 <transition on="orderConfirmed" to="processOrder" />
 <transition on="backToCollectShippingDetail"
@@ -43,9 +68,12 @@ result="order.orderId"/>
 <view-state id="thankCustomer" model="order">
 <transition to="endState"/>
 </view-state>
+
 <end-state id="endState"/>
+
 <end-state id="cancelCheckout" view = "checkOutCancelled.jsp"/>
+
 <global-transitions>
-<transition on = "cancel" to="cancelCheckout" />
+	<transition on = "cancel" to="cancelCheckout" />
 </global-transitions>
 </flow>

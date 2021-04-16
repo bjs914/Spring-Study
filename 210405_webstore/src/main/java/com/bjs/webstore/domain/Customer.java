@@ -8,27 +8,37 @@ public class Customer implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 6594162382485270660L;
-	private Long customerId;
+	private boolean wrongId = false;
+	private Long customerIdLong;
 	private String name;
 	private Address billingAddress;
 	private String phoneNumber;
+	private int noOfOrdersMade;
+	
 	
 	public Customer() {
-		super();
 		this.billingAddress = new Address();
 	}
+	
 	public Customer(Long customerId, String name) {
 		this();
-		this.customerId = customerId;
+		this.customerIdLong = customerId;
 		this.name = name;
 	}
 		
-	public Long getCustomerId() {
-		return customerId;
+	public Long getCustomerIdLong() {
+		return customerIdLong;
 	}
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
+	public void setCustomerIdLong(Long customerIdLong) {
+		this.customerIdLong = customerIdLong;
 	}
+	public int getNoOfOrdersMade() {
+		return noOfOrdersMade;
+	}
+	public void setNoOfOrdersMade(int noOfOrdersMade) {
+		this.noOfOrdersMade = noOfOrdersMade;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -51,12 +61,19 @@ public class Customer implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
+	
+	public boolean getWrongId() {
+		return wrongId;
+	}
+	public void setWorngId(boolean wrongId) {
+		this.wrongId = wrongId;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
+		result = prime * result + ((customerIdLong == null) ? 0 : customerIdLong.hashCode());
 		return result;
 	}
 
@@ -69,10 +86,10 @@ public class Customer implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Customer other = (Customer) obj;
-		if (customerId == null) {
-			if (other.customerId != null)
+		if (customerIdLong == null) {
+			if (other.customerIdLong != null)
 				return false;
-		} else if (!customerId.equals(other.customerId))
+		} else if (!customerIdLong.equals(other.customerIdLong))
 			return false;
 		return true;
 	}

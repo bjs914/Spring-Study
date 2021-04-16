@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
@@ -27,6 +28,16 @@ href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 		<form:form modelAttribute="order.customer" class="form-horizontal">
 			<fieldset>
 				<legend>Customer Details</legend>
+				<div class="form-group">
+					<div class="col-lg-offset-2 col-lg-10">
+						<c:if test="${order.customer.wrongId == true}">
+							<p cssClass="text-danger">'${order.customer.customerIdLong}' 는
+								등록된 사용자가 아닙니다.</p>
+							<button id="back" class="btn btn-default"
+								name="_eventId_backToCollectCustomerId">ID 새로 입력</button>
+						</c:if>
+					</div>
+				</div>
 				<div class="form-group">
 					<label class="control-label col-lg-2" for="name">이름</label>
 					<div class="col-lg-10">
