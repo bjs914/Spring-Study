@@ -12,6 +12,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.bjs.webstore.domain.Address;
+import com.bjs.webstore.domain.Customer;
 import com.bjs.webstore.domain.Customers;
 import com.bjs.webstore.domain.repository.CustomerRepository;
 
@@ -49,5 +51,36 @@ public class InMemoryCustomerRepository implements CustomerRepository{
 		params.put("address", customer.getAddress());
 		params.put("noOfOrdersMade", customer.getNoOfOrdersMade());
 		jdbcTemplate.update(sql, params);
+	}
+
+	@Override
+	public List<Customer> getAllCustomer() {
+		Map<String, Object> params = new HashMap<String, Object>();
+		String qry = null;
+		qry = "Select C.ID, C.name, C.phone_number,";
+		qry += " A.ZIPCODE, A.WIDECIDO, A.CIGOONGU, A.STREETNAME, ";
+		qry += " A.BUILDINGNO, A.UNITNO ";
+		qry += "From customer C";
+		qry += " Join address A on C.billing_address_id = A.ID";
+		List<Customer> result = jdbcTemplate.query(qry, params, new CustomerMapper2());
+		return result;
+	}
+	
+	private static final class CustomerMapper2 implements RowMapper<Customer> {
+		public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Customer customer = new Customer();
+			customer.setCustomerId(rs.getLong("ID"));
+			customer.setName(rs.getString("NAME"));
+			customer.setPhoneNumber(rs.getString("PHONE_NUMBER"));
+			Address billAddress = new Address();
+			billAddress.setZipCode(rs.getString("ZIPCODE"));
+			billAddress.setWideCiDo(rs.getString("WIDECIDO"));
+			billAddress.setCiGoonGu(rs.getString("CIGOONGU"));
+			billAddress.setStreetName(rs.getString("STREETNAME"));
+			billAddress.setBuildingNo(rs.getString("BUILDINGNO"));
+			billAddress.setUnitNo(rs.getString("UNITNO"));
+			customer.setBillingAddress(billAddress);
+			return customer;
+		}
 	}
 }

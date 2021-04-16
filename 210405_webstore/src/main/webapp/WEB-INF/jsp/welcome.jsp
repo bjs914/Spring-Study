@@ -60,6 +60,7 @@ charset=UTF-8"
 						href="market/products/laptop">랩탑</a></span>,&nbsp;<span><a
 						href="market/products/TABLET">태블릿</a></span>)</li>
 				<li><a href="market/update/stock/">제고 증가</a></li>
+				<li><a href="market/customers2">단골고객 확인</a></li>
 			</ul>
 		</section>
 </body>

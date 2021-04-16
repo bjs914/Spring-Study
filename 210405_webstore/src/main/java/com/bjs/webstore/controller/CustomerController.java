@@ -41,4 +41,10 @@ public class CustomerController {
 			return "addCustomer";
 		}
 	}
+	
+	@RequestMapping("/customers2")
+	public String list2(Model model) {
+		model.addAttribute("customers", customerService.getAllCustomer());
+		return "customers2";
+	}
 }

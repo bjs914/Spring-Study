@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bjs.webstore.domain.Customer;
 import com.bjs.webstore.domain.Customers;
 import com.bjs.webstore.domain.repository.CustomerRepository;
 import com.bjs.webstore.service.CustomerService;
@@ -23,6 +24,12 @@ public class CustomerServiceImpl implements CustomerService{
 	public void addCustomer(Customers customer) {
 		customerRepository.addCustomer(customer);
 	}
+
+	@Override
+	public List<Customer> getAllCustomer() {
+		return customerRepository.getAllCustomer();
+	}
+
 	
 	
 }
