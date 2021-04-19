@@ -1,7 +1,10 @@
 package com.bjs.webstore.config;
 
 import javax.servlet.Filter;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
+import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -34,4 +37,10 @@ public class DispatcherServletInitializer extends
         
         return new Filter[] { characterEncodingFilter };
     }
+	
+	@Override//210419추가-11장마지막
+	public void onStartup(ServletContext servletContext) throws ServletException {
+		super.onStartup(servletContext);
+		servletContext.addListener(new RequestContextListener());
+	}
 }

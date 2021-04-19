@@ -18,7 +18,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserService userService;
-
+	
+	@Autowired
+	AuthenticationSuccessHandlerImpl authenticationSuccessHandler;
+	
 	@Autowired
 	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
 		List<User> users = userService.getAllUsers();

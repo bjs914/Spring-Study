@@ -31,14 +31,14 @@ charset=UTF-8"
 
 		</div>
 	</section>
-		<section>
+		<%-- <section>
 			<div class="jumbotron">
 				<div style="margin-left: 10%;">
 					<h1>${greeting}</h1>
 					<p>${tagline}</p>
 				</div>
 			</div>
-		</section>
+		</section> --%>
 		<section class="container">
 			<ul>
 				<li><a href="login">로그인하기</a></li>

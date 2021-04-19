@@ -14,5 +14,6 @@ public interface ProductRepository {	//repository : table
 	List<Product> getProductsByFilter(Map<String, List<String>> filterParams);
 	List<Product> getProdsByMultiFilter(
 			String productCategory,
-			Map<String, String> price, String brand);	
+			Map<String, String> price, String brand);
+	void changeStock(String productId, long changeAmount);
 }

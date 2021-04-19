@@ -11,14 +11,14 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<section>
+	<!-- <section>
 		<div class="jumbotron">
 			<div class="container">
 				<h1>고객 목록</h1>
 				<p>모든 고객 목록</p>
 			</div>
 		</div>
-	</section>
+	</section> -->
 	<section class="container">
 		<a href="/webstore">홈으로</a>
 		<div class="pull-right" style="padding-right: 50px">

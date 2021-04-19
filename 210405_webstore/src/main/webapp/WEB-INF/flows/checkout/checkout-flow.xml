@@ -35,12 +35,13 @@ http://www.springframework.org/schema/webflow/spring-webflow.xsd">
 <view-state id="collectCustomerInfo" view="collectCustomerInfo.jsp"
 model="order">
 <transition on="customerInfoCollected" to="saveCustomerInfo" />
+<transition on="backToCollectCustomerId" to="collectCustomerId" />
 </view-state>
 
 <view-state id="collectShippingDetail" model="order">
 <transition on="shippingDetailCollected" to="orderConfirmation" />
 <transition on="backToCollectCustomerInfo" to="collectCustomerInfo"
-/>
+/><!--210419 새로 추가함-->
 </view-state>
 
 <action-state id="saveCustomerInfo">

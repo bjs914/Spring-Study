@@ -13,20 +13,20 @@
 <title>신상품 정보</title>
 </head>
 <body>
-	<section>
+	<%-- <section>
 		<div class="pull-right" style="padding-right: 50px">
 			<a href="?language=ko">한글</a>|<a href="?language=en">English</a><p/>
 			<a href="<c:url value="/logout" />">로그아웃</a>
 		</div>
-	</section>
-	<section>
+	</section> --%>
+	<!-- <section>
 		<div class="jumbotron">
 			<div class="container">
 				<h1>상품</h1>
 				<p>새 상품 등록</p>
 			</div>
 		</div>
-	</section>
+	</section> -->
 	<section class="container">
 	<a href="/webstore">홈으로</a>
 		<form:form method="POST" modelAttribute="newProduct"

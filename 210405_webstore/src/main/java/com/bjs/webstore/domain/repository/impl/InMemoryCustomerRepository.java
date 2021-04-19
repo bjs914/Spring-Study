@@ -68,7 +68,7 @@ public class InMemoryCustomerRepository implements CustomerRepository{
 		qry = "Select C.ID, C.name, C.phone_number,";
 		qry += " A.ZIPCODE, A.WIDECIDO, A.CIGOONGU, A.STREETNAME, ";
 		qry += " A.BUILDINGNO, A.UNITNO ";
-		qry += "From customer C";
+		qry += "From customers C";
 		qry += " Join address A on C.billing_address_id = A.ID";
 		List<Customer> result = jdbcTemplate.query(qry, params, new CustomerMapper2());
 		return result;
@@ -103,7 +103,7 @@ public class InMemoryCustomerRepository implements CustomerRepository{
 		qry += "Select C.ID, C.name, C.phone_number,";
 		qry += " A.ZIPCODE, A.WIDECIDO, A.CIGOONGU,A.STREETNAME,";
 		qry += " A.BUILDINGNO, A.UNITNO ";
-		qry += "From customer C";
+		qry += "From customers C";
 		qry += " Join address A on C.billing_address_id = A.ID";
 		qry += " WHERE C.ID = :id";
 		
@@ -124,7 +124,7 @@ public class InMemoryCustomerRepository implements CustomerRepository{
 
 	@Override
 	public Boolean isCustomerExist(String customerId) {
-		String sql = "SELECT count(*) FROM customer";
+		String sql = "SELECT count(*) FROM customers";
 		sql += " WHERE ID = :id";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", customerId);

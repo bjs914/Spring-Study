@@ -3,23 +3,25 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet"
 href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-<title>고객 등록</title>
+<!-- <title>고객 등록</title> -->
 </head>
 <body>
-	<section>
+	<!-- <section>
 		<div class="jumbotron">
 			<div class="container">
 				<h1>고객님 정보</h1>
 				<p>새 고객 입력</p>
 			</div>
 		</div>
-	</section>
+	</section> -->
+	
 	<section class="container">
 		<a href="/webstore">홈으로</a>
 		<div class="pull-right" style="padding-right: 50px">
@@ -73,5 +75,6 @@ href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 				</div>
 			</fieldset>
 		</form:form>
+		</section>
 </body>
 </html>

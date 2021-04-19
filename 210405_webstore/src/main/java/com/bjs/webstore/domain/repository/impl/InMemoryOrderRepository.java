@@ -55,7 +55,7 @@ public class InMemoryOrderRepository implements OrderRepository{
 	@Override
 	public	long saveCustomer(Customer customer) {
 		long addressId = saveAddress(customer.getBillingAddress());
-		String SQL = "INSERT INTO CUSTOMER ";
+		String SQL = "INSERT INTO CUSTOMERS ";
 		SQL += "(NAME,PHONE_NUMBER,BILLING_ADDRESS_ID) ";
 		SQL += "VALUES (:name, :phoneNumber, :addressId)";
 		Map<String, Object> params = new HashMap<String, Object>();

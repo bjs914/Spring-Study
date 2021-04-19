@@ -19,7 +19,7 @@ public class InMemoryProductRepository implements ProductRepository {
 	
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;	//mariaDB 연결과 연관된 빈들의 집합을 Autowired로 묶음
-
+	
 	public List<Product> getAllProducts() {
 		Map<String, Object> params = new HashMap<String, Object>();
 		List<Product> result = jdbcTemplate.query("SELECT * FROM products", params, new ProductMapper());
@@ -43,6 +43,7 @@ public class InMemoryProductRepository implements ProductRepository {
 		}
 	}
 	
+	@Override
 	public void updateStock(String productId, long noOfUnits) {
 		String SQL = "UPDATE PRODUCTS SET "
 				+ "UNITS_IN_STOCK = :unitsInStock WHERE ID = :id";	//:의 의미 -> PreparedStatment를 의미함
@@ -120,5 +121,16 @@ public class InMemoryProductRepository implements ProductRepository {
 		List<Product> result = jdbcTemplate.query(query, params, new ProductMapper());
 		return result;
 
+	}
+
+	@Override	//0419추가
+	public void changeStock(String productId, long changeAmount) {
+		String SQL = "UPDATE PRODUCTS SET " 
+				+ "UNITS_IN_STOCK = UNITS_IN_STOCK + :changeAmount "
+				+ "WHERE ID = :id";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("changeAmount", changeAmount);
+		params.put("id", productId);
+		jdbcTemplate.update(SQL, params);
 	}
 }

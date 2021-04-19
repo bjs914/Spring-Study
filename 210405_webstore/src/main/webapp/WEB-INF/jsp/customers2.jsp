@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>    
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +18,7 @@ href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 					code="logout.anchor.text" /></a>
 		</div>
 	</section>
-	<section>
+	<%-- <section>
 		<div class="jumbotron">
 			<div class="container">
 				<h1>
@@ -29,7 +29,7 @@ href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 				</p>
 			</div>
 		</div>
-	</section>
+	</section> --%>
 	<section class="container">
 		<a href="/webstore">홈으로</a>
 	</section>
