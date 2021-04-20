@@ -19,7 +19,7 @@ public class CartItemTest {
 	cartItem_total_price_should_be_equal_to_product_unit_price_in_case_of_single_quantity() {
 	// @formatter:off
  	//Arrange
-	Product iphone =new Product("P1234","iPhone 5s", 50_0000);
+	Product iphone =new Product("P1234","iPhone 5s", 50_0000, 1000);
 	cartItem.setProduct(iphone);
 	cartItem.setQuantity(1);
 	// Act

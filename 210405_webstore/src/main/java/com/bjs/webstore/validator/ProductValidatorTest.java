@@ -26,12 +26,14 @@ public class ProductValidatorTest {
 		Product product = new Product();
 		BindException bindException = new BindException(product, "product");
 		// Act
-		ValidationUtils.invokeValidator(productValidator, product, bindException);
+		ValidationUtils.invokeValidator(productValidator, 
+				product, bindException);
 		// @formatter:off
 		// Assert
-		Assert.assertEquals(3, bindException.getErrorCount());
+		Assert.assertEquals(4, bindException.getErrorCount());
 		String result = bindException.getLocalizedMessage();
-		Assert.assertTrue(bindException.getLocalizedMessage().contains("같은 ID를 가지는 상품이 존재함"));
+		Assert.assertTrue(bindException.getLocalizedMessage()
+				.contains("단위 가격 오류. 값이 입력되어야 함"));
 		// @formatter:on
 	}
 
@@ -42,11 +44,12 @@ public class ProductValidatorTest {
 		product.setCategory("Tablet");
 		BindException bindException = new BindException(product, "product");
 		// Act
-		ValidationUtils.invokeValidator(productValidator, product, bindException);
+		ValidationUtils.invokeValidator(productValidator, 
+				product, bindException);
 		// Assert
-		Assert.assertEquals(1, bindException.getErrorCount());
 		String resultString = bindException.getLocalizedMessage();
-		Assert.assertTrue(bindException.getLocalizedMessage().contains("상품 ID 오류. 형식: P로 시작하는 숫자"));
+		Assert.assertEquals(1, bindException.getErrorCount());
+		Assert.assertTrue(bindException.getLocalizedMessage().contains("같은 ID를 가지는 상품이 존재함"));
 	}
 
 	@Test
