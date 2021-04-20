@@ -14,8 +14,8 @@ import com.bjs.webstore.domain.Product;
 public class ProductValidator implements Validator{
 	@Autowired
 	private javax.validation.Validator beanValidator;
-
 	private Set<Validator> springValidators;
+	
 	public ProductValidator() {
 	springValidators = new HashSet<Validator>();
 	} 
@@ -25,7 +25,6 @@ public class ProductValidator implements Validator{
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
-		// TODO Auto-generated method stub
 		return Product.class.isAssignableFrom(clazz);
 	}
 

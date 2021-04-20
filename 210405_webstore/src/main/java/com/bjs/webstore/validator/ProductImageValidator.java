@@ -30,7 +30,8 @@ public class ProductImageValidator implements Validator{
 		if (product == null || product.getProductImage() == null) {
 			return;
 		}
-		if (product.getProductImage().getSize() > allowedSize) {
+		if (product.getProductImage() != null &&	
+			product.getProductImage().getSize() > allowedSize) {//210420 null&&까지 추가됨
 			errors.rejectValue("productImage", "com.bjs.webstore.validator.ImageSize.message");
 		}
 		

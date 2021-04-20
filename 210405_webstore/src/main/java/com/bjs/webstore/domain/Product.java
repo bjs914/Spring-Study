@@ -64,10 +64,11 @@ public class Product implements Serializable {	//이 클래스에 serialize 가 
 		super();
 	}
 
-	public Product(String productId, String name, int unitPrice) {
+	public Product(String productId, String name, int unitPrice, long unitsInStock) {
 		this.productId = productId;
 		this.name = name;
 		this.unitPrice = new BigDecimal(unitPrice);
+		this.unitsInStock = unitsInStock;
 	} //
 
 
