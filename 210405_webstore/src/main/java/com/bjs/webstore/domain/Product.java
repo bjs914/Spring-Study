@@ -30,7 +30,7 @@ public class Product implements Serializable {	//이 클래스에 serialize 가 
 	@Pattern(regexp="P[1-9]+", message="{Pattern.Product.productId.validation}")
 	@ProductId
 	private String productId;
-	@Size(min=4, max=50, message="{Size.Product.name.validation}")
+	@Size(min=4, max=50, message="{Size.Product.name.validation}")//최소 4글자가 와야함
 	private String name;
 	@Min(value=0, message="{Min.Product.unitPrice.validation}")
 	@Digits(integer=8, fraction=2, message="{Digits.Product.unitPrice.validation}")
