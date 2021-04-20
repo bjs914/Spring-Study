@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-import com.bjs.webstore.domain.User;
+import com.bjs.webstore.domain.UserWs;
 import com.bjs.webstore.service.UserService;
 
 @Configuration
@@ -24,8 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-		List<User> users = userService.getAllUsers();
-		for (User u : users) {
+		List<UserWs> users = userService.getAllUsers();
+		for (UserWs u : users) {
 			if ("admin".equals(u.getUsername())) {//여기에서 u.getUsername에 DB에 있는 고객의 이름이 담기게 됨
 				auth.inMemoryAuthentication().withUser(u.getUsername()).password(u.getPassword()).roles("USER",
 						"ADMIN");	//여기에서 admin이라는게 저장되어있는 데이터가 admin이라는 String과 같으면 roles의 안에 지정된 이름으로 권한을 부여함
@@ -48,6 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.logout().logoutSuccessUrl("/login?logout");	//logout 성공시, /login?logout 경로 반환
 		httpSecurity.exceptionHandling().accessDeniedPage("/login?accessDenied");	//로그인 실패시, 해당 경로 반환
 															// ? 오른쪽 : parameta
+		httpSecurity.formLogin().successHandler(authenticationSuccessHandler)
+		.defaultSuccessUrl("/market/customers").failureUrl("/login?error");
 		httpSecurity.authorizeRequests().antMatchers("/").permitAll()
 //		.antMatchers("/**/add").access("hasRole('ADMIN')")
 		.antMatchers("/**/products/add").access("hasRole('ADMIN')")

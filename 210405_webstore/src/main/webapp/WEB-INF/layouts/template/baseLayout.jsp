@@ -16,17 +16,23 @@ src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.1/angular.min.js">
 <script src="/webstore/resources/js/controller.js"></script>
 </head>
 <body>
-	<section class="container">
-		<div class="pull-right" style="padding-right: 50px">
-			<a href="?language=ko">한글</a>|<a href="?language=en">English</a>
-			<c:if test="${empty userId}">
-				<a href="<c:url value="/login"/>">로그인</a>
-			</c:if>
-			<c:if test="${not empty userId}">
-				<a href="<c:url value="/logout"/>">로그아웃</a>
-			</c:if>
-		</div>
-		</section>
+	<section>
+	<div class="pull-right" style="padding-right: 50px">
+		<a href="?language=ab">한글</a>|<a href="?language=en">English</a>
+		<c:choose>
+			<c:when test="${userId == null}">
+				<a href="<c:url value='/login'/>"> 
+			<spring:message code="login.anchor.text" />
+			</a>
+			</c:when>
+			<c:otherwise>
+				환영&nbsp;'${userId}'님&nbsp;
+				<a href="<c:url value='/logout'/>"> 
+			<spring:message code="logout.anchor.text" /> </a>
+			</c:otherwise>
+		</c:choose>		
+	</div>
+</section>
 		<div class="container">
 			<div class="jumbotron">	<!-- jumbotron에 heading과 tagline이 들어감 -->
 				<div class="header">

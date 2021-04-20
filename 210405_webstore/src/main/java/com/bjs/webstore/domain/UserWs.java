@@ -3,7 +3,7 @@ package com.bjs.webstore.domain;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class User implements Serializable{
+public class UserWs implements Serializable{
 
 	/**
 	 * 

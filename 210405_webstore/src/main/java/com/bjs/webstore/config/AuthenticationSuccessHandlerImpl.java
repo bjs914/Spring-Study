@@ -10,10 +10,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import com.bjs.webstore.domain.User;
+
 
 @Component
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
@@ -22,13 +23,13 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-		String userName = "";
+		String userId = "";
 		if (authentication.getPrincipal() instanceof Principal) {
-			userName = ((Principal) authentication.getPrincipal()).getName();
+			userId = ((Principal) authentication.getPrincipal()).getName();
 		} else {
-			userName = ((User) authentication.getPrincipal()).getUsername();
+			userId = ((User) authentication.getPrincipal()).getUsername();
 		}
-		session.setAttribute("userId", userName);
+		session.setAttribute("userId", userId);
 		response.sendRedirect(request.getContextPath() + "/market/customers");
 	}
 } 

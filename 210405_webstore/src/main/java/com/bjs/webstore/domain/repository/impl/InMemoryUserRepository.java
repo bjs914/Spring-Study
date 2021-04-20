@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.bjs.webstore.domain.User;
+import com.bjs.webstore.domain.UserWs;
 import com.bjs.webstore.domain.repository.UserRepository;
 
 @Repository
@@ -20,15 +20,15 @@ public class InMemoryUserRepository implements UserRepository{
 	private NamedParameterJdbcTemplate jdbcTemplate;
 	
 	@Override
-	public List<User> getAllUsers() {
+	public List<UserWs> getAllUsers() {
 		String sql = "SELECT * FROM users";
-		List<User> result = jdbcTemplate.query(sql, new UserMapper());
+		List<UserWs> result = jdbcTemplate.query(sql, new UserMapper());
 		return result;
 	}
 
-	private static final class UserMapper implements RowMapper<User> {
-		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-			User user = new User();
+	private static final class UserMapper implements RowMapper<UserWs> {
+		public UserWs mapRow(ResultSet rs, int rowNum) throws SQLException {
+			UserWs user = new UserWs();
 			user.setUsername(rs.getString("username"));
 			user.setEmail(rs.getString("email"));
 			user.setPassword(rs.getString("password"));

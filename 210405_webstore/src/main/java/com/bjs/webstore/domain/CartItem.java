@@ -29,7 +29,15 @@ public class CartItem implements Serializable{
 
 	public void setProduct(Product product) {
 		this.product = product;
-		this.updateTotalPrice();
+//		this.updateTotalPrice();
+		this.quantity=1;
+		BigDecimal totalPrice = product.getUnitPrice().multiply(
+				new BigDecimal(quantity));
+		this.setTotalPrice(totalPrice);
+	}
+
+	public void setTotalPrice(BigDecimal totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
 	public int getQuantity() {
@@ -54,6 +62,9 @@ public class CartItem implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((product == null) ? 0 : product.hashCode());
+		result = prime * result + quantity;
+		result = prime * result + ((totalPrice == null) ? 0 : totalPrice.hashCode());
 		return result;
 	}
 

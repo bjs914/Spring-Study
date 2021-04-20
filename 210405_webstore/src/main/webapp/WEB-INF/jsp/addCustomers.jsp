@@ -25,7 +25,7 @@ href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 	<section class="container">
 		<a href="/webstore">홈으로</a>
 		<div class="pull-right" style="padding-right: 50px">
-			<a href="<c:url value="/logout" />">로그아웃</a>
+			<%-- <a href="<c:url value="/logout" />">로그아웃</a> --%>
 		</div>
 		<hr>
 	</section>
