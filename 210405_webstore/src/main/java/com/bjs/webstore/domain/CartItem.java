@@ -30,10 +30,11 @@ public class CartItem implements Serializable{
 	public void setProduct(Product product) {
 		this.product = product;
 //		this.updateTotalPrice();
-		this.quantity=1;
-		BigDecimal totalPrice = product.getUnitPrice().multiply(
-				new BigDecimal(quantity));
-		this.setTotalPrice(totalPrice);
+//		this.quantity=1;
+		setQuantity(1);
+//		BigDecimal totalPrice = product.getUnitPrice().multiply(
+//				new BigDecimal(quantity));
+//		this.setTotalPrice(totalPrice);
 	}
 
 	public void setTotalPrice(BigDecimal totalPrice) {
@@ -46,10 +47,12 @@ public class CartItem implements Serializable{
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+		this.totalPrice = product.getUnitPrice().multiply(
+				new BigDecimal(quantity)); 
 	}
 
 	public BigDecimal getTotalPrice() {
-		this.updateTotalPrice();
+//		this.updateTotalPrice();
 		return totalPrice;
 	}
 
